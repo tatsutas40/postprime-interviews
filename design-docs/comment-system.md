@@ -4,7 +4,8 @@ Write a design doc for comment function on a post (SNS): users are able to comme
 comments, and also like a comment, report a comment as spam.
 
 For example (with UI):
-![Comments](https://github.com/postprime/postprime-interviews/blob/master/docs/comments.png?raw=true | width=100)
+
+<img src="https://github.com/postprime/postprime-interviews/blob/master/docs/comments.png" width="200">
 
 # Function requirements
 
