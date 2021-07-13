@@ -5,9 +5,10 @@ comments, and also like a comment, report a comment as spam.
 
 For example (with UI):
 
-<img src="https://github.com/postprime/postprime-interviews/blob/master/docs/comments.png" width="200" alt="Comment function">
+<img src="https://github.com/postprime/postprime-interviews/blob/master/images/comments.png" width="200" alt="Comment function">
 
 *Please note that we do not require source code on this challenge, feel free to create a word/pdf...etc file
+
 # Function requirements
 
 ### APIs:
