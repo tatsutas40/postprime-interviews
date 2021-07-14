@@ -10,11 +10,11 @@ For example (with UI):
 *Please note that we do not require source code on this challenge, feel free to create a word/pdf...etc file
 
 # Function requirements
-
+``
 ### APIs:
 
 - GET all comments belongs to a post
-- Create/Update/Read/Delete comments
+- Create/Update/Read/Delete comment
 - Like/Report as spam to a comment
 - Stats: num of comments on a post
 
