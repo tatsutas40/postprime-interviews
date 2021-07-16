@@ -37,7 +37,7 @@ https://user-images.githubusercontent.com/32532742/125992527-0389be38-0c4a-4b44-
 
 Please make sure in any case, only __one__ video could be played at a time. Besides, the audio of each video should be well controlled too, we leave it to you
 
-5. As a modern SNS, PostPrime would like to offer users the best experience. That would be nice if our users could what video on their screen side and still read through the timeline. Let's add Picture in picture playing mode for our application.
+5. As a modern SNS, PostPrime would like to offer users the best experience. That would be nice if our users could watch video on their screen while still read through the timeline. Let's add Picture in picture playing mode for our application.
 
 6. Our backend engineers're trying them best to make sure no error could be occurred in video playing features. But you know, no bugs system doesn't exist! Let's add some kind of warning things so that users know that your video is not available, just stay calm.
 
