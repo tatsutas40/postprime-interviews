@@ -15,7 +15,10 @@ In PostPrime, we love video playing/streaming features. We're going to create a 
 
 1. Create a video component as the sample in below video :))
 
-![video_01](../../videos/video_01.mp4)
+
+
+https://user-images.githubusercontent.com/32532742/125992496-dd73aa02-b511-4f49-85bf-7aae5122b419.mp4
+
 
 Note that you can just focus on the video player (and its control buttons), no need to add the below white part.
 
@@ -23,7 +26,11 @@ Note that you can just focus on the video player (and its control buttons), no n
 
 3. Since PostPrime is a SNS, not just a simple video player application. Your created video player will be used to display __multi videos__ in the timeline of our users. Let's make a container (to fake the users' timeline) and place our video player there, everything will look so nice
 
-![video_02](../../videos/video_02.mp4)
+
+
+https://user-images.githubusercontent.com/32532742/125992527-0389be38-0c4a-4b44-81cb-1853230d4b36.mp4
+
+
 
 4. If you pay close attention, we really need an efficient way to make sure users don't get bothered by multiple videos playing at the same time. Let's add this ability to our application too.
 
