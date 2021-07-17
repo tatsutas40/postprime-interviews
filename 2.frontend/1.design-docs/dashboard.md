@@ -4,7 +4,7 @@ At PostPrime, you have to work with other Backend members and designers to desig
 
 Suppose the designer gives us (engineers) this bellow sketch.
 
-<img src="../../images/dashboard.png" alt="Comment function">
+<img src="../../images/dashboard.png" alt="dashboard function">
 
 Write an `API` design doc for it ;)
 
