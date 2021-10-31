@@ -1,0 +1,58 @@
+@startuml
+title コメント作成フロー
+actor user
+
+box "API" #LightGreen
+participant "CommentRestControllerV1" as CommentRestControllerV1
+participant "CommentService" as CommentService
+participant "PostRepository" as PostRepository
+participant "UserRepository" as UserRepository
+participant "CommentRepository" as CommentRepository
+end box
+
+box "DB" #Pink
+participant "ポストDB" as PostDB
+participant "ユーザDB" as UserDB
+participant "コメントDB" as CommentDB
+end box
+
+hide footbox
+
+user -> CommentRestControllerV1: /v1/comments
+
+activate CommentRestControllerV1
+CommentRestControllerV1 -> CommentService:createComment
+
+activate CommentService
+CommentService -> PostRepository:findById
+activate PostRepository
+PostRepository -> PostDB:コメントを作成対象のポストを取得
+activate PostDB
+PostDB --> PostRepository:コメントを作成対象のポスト
+deactivate PostDB
+PostRepository --> CommentService
+deactivate PostRepository
+
+CommentService -> UserRepository:findById
+activate UserRepository
+UserRepository -> UserDB:コメントを作成するユーザを取得
+activate UserDB
+UserDB --> UserRepository:コメントを作成するユーザ
+deactivate UserDB
+UserRepository --> CommentService
+deactivate UserRepository
+
+CommentService -> CommentRepository:save
+activate CommentRepository
+CommentRepository -> CommentDB:コメントを作成
+activate CommentDB
+CommentDB --> CommentRepository
+deactivate CommentDB
+CommentRepository --> CommentService
+deactivate CommentRepository
+CommentService --> CommentRestControllerV1
+deactivate CommentService
+CommentRestControllerV1 --> user
+deactivate CommentRestControllerV1
+
+@enduml

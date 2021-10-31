@@ -1,0 +1,48 @@
+@startuml
+title コメント削除フロー
+actor user
+
+box "API" #LightGreen
+participant "CommentRestControllerV1" as CommentRestControllerV1
+participant "CommentService" as CommentService
+participant "CommentRepository" as CommentRepository
+participant "CommentLikeRepository" as CommentLikeRepository
+end box
+
+box "DB" #Pink
+participant "コメントDB" as CommentDB
+participant "コメントライクDB" as CommentLikeDB
+end box
+
+hide footbox
+
+user -> CommentRestControllerV1: /v1/comments/{id}
+
+activate CommentRestControllerV1
+CommentRestControllerV1 -> CommentService:deleteComment
+activate CommentService
+CommentService -> CommentRepository:findById
+activate CommentRepository
+CommentRepository -> CommentDB:削除対象のコメントを取得する
+activate CommentDB
+CommentDB --> CommentRepository:削除対象のコメント
+CommentService -> CommentLikeRepository:deleteByCommentId
+activate CommentLikeRepository
+CommentLikeRepository -> CommentLikeDB:コメントに関するライクを削除
+activate CommentLikeDB
+CommentLikeDB --> CommentLikeRepository
+deactivate CommentLikeDB
+CommentLikeRepository --> CommentService
+deactivate CommentLikeRepository
+CommentService -> CommentRepository:deleteById
+CommentRepository -> CommentDB:対象のコメントを削除
+CommentDB --> CommentRepository
+deactivate CommentDB
+CommentRepository --> CommentService
+deactivate CommentRepository
+CommentService --> CommentRestControllerV1
+deactivate CommentService
+CommentRestControllerV1 --> user
+deactivate CommentRestControllerV1
+
+@enduml

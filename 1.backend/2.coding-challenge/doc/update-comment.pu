@@ -1,0 +1,75 @@
+@startuml
+title コメント更新フロー
+actor user
+
+box "API" #LightGreen
+participant "CommentRestControllerV1" as CommentRestControllerV1
+participant "CommentService" as CommentService
+participant "CommentRepository" as CommentRepository
+participant "UserRepository" as UserRepository
+participant "PostRepository" as PostRepository
+end box
+
+box "DB" #Pink
+participant "コメントDB" as CommentDB
+participant "ユーザDB" as UserDB
+participant "ポストDB" as PostDB
+end box
+
+hide footbox
+
+user -> CommentRestControllerV1: /v1/comments/{id}
+
+activate CommentRestControllerV1
+CommentRestControllerV1 -> CommentService:createComment
+
+activate CommentService
+CommentService -> CommentRepository:findById
+activate CommentRepository
+CommentRepository -> CommentDB:更新対象のコメントを取得
+activate CommentDB
+CommentDB --> CommentRepository:更新対象のコメント
+deactivate CommentDB
+CommentRepository --> CommentService
+deactivate CommentRepository
+
+CommentService -> UserRepository:findById
+activate UserRepository
+UserRepository -> UserDB:コメントを更新するユーザを取得
+activate UserDB
+UserDB --> UserRepository:コメントを更新するユーザ
+deactivate UserDB
+UserRepository --> CommentService
+deactivate UserRepository
+
+CommentService -> PostRepository:findById
+activate PostRepository
+PostRepository -> PostDB:更新対象のコメントのポストを取得
+activate PostDB
+PostDB --> PostRepository:更新対象のコメントのポスト
+deactivate PostDB
+PostRepository --> CommentService
+deactivate PostRepository
+
+alt
+CommentService -> CommentService: スパムをレポートする場合、更新ユーザのポストのオーナーをチェック
+end
+
+alt
+CommentService -> CommentService: コメントを更新する場合、更新ユーザのコメントのオーナーをチェック
+end
+
+CommentService -> CommentRepository:save
+activate CommentRepository
+CommentRepository -> CommentDB:コメントを更新
+activate CommentDB
+CommentDB --> CommentRepository
+deactivate CommentDB
+CommentRepository --> CommentService
+deactivate CommentRepository
+CommentService --> CommentRestControllerV1
+deactivate CommentService
+CommentRestControllerV1 --> user
+deactivate CommentRestControllerV1
+
+@enduml
