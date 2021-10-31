@@ -1,0 +1,56 @@
+@startuml
+
+entity "ユーザ" as users {
+    + ID [PK] : Integer
+    --
+    + 姓: String
+    + 名: String
+    + 登録日時 : Date
+}
+
+entity "ポスト" as posts {
+    + ID [PK] : Integer
+    --
+    + テキスト: String
+    + ポストユーザ: String
+    + 登録日時 : Date
+    + 更新日時 : Date
+}
+
+entity "コメント" as comments {
+    + ID [PK] : Integer
+    --
+    + ポスト ID : Integer
+    + テキスト: String
+    + コメントユーザ: String
+    + スパム: Boolean
+    + 登録日時 : Date
+    + 更新日時 : Date
+}
+
+entity "ポスト Like" as post_likes {
+    + ID [PK] : Integer
+    --
+    + ポスト ID : Integer
+    + ライクユーザ: Integer
+    + 登録日時 : Date
+}
+
+entity "コメント Like" as comment_likes {
+    + ID [PK] : Integer
+    --
+    + コメント ID : Integer
+    + ライクユーザ: Integer
+    + 登録日時 : Date
+}
+
+
+users -- posts
+users -- comments
+users -- post_likes
+users -- comment_likes
+posts o-- post_likes
+posts o-- comments
+comments o-- comment_likes
+
+@enduml

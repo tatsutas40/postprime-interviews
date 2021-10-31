@@ -1,0 +1,526 @@
+swagger: '2.0'
+info:
+  title: Comment-REST-API
+  version: '1.0'
+host: 'localhost:3000'
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /v1/comments:
+    get:
+      summary: Get comment list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommentList'
+          examples:
+            example-1:
+              value:
+                comments:
+                  - id: 1
+                    postId: 1
+                    text: これはコメントです
+                    commentedBy:
+                      id: 1
+                      lastName: Yamada
+                      firstName: Taro
+                    isSpam: false
+                    createdAt: '2021-10-24T14:15:22'
+                    updatedAt: '2021-10-24T14:15:22'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified Post is not found.
+      operationId: get-v1-comments
+      parameters:
+        - type: integer
+          in: query
+          name: postId
+          description: Post ID
+    post:
+      summary: Create comment
+      operationId: post-v1-comments
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Comment'
+          examples:
+            example-1:
+              value:
+                id: 1
+                postId: 1
+                text: これはコメントです
+                commentedBy:
+                  id: 1
+                  lastName: Yamada
+                  firstName: Taro
+                isSpam: false
+                createdAt: '2021-10-24T14:15:22'
+                updatedAt: '2021-10-24T14:15:22'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified post is not found.
+            example-2:
+              value:
+                code: '0000'
+                message: Specified user is not found.
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/CreateComment'
+          x-examples:
+            example-1:
+              value:
+                postId: 1
+                text: これはコメントです。
+                commentedBy: 1
+  '/v1/comments/{id}':
+    get:
+      summary: Get comment
+      tags: []
+      responses: {}
+      operationId: get-v1-comment
+    parameters:
+      - type: integer
+        name: id
+        in: path
+        required: true
+        description: Comment ID
+    patch:
+      summary: Update comment
+      operationId: patch-v1-comments-id
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Comment'
+          examples:
+            example-1:
+              value:
+                id: 1
+                postId: 1
+                text: これはコメントです
+                commentedBy:
+                  id: 1
+                  lastName: Yamada
+                  firstName: Taro
+                isSpam: false
+                createdAt: '2021-10-24T14:15:22'
+                updatedAt: '2021-10-24T14:15:22'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified comment is not found.
+            example-2:
+              value:
+                code: '0000'
+                message: Specified user is not found.
+            example-3:
+              value:
+                code: '0000'
+                message: Specified user is not post owner.
+            example-4:
+              value:
+                code: '0000'
+                message: Specified user is not comment owner.
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/UpdateComment'
+          x-examples:
+            example-1:
+              value:
+                userId: 1
+                text: これは更新コメントです。
+            example-2:
+              value:
+                userId: 1
+                isSpam: true
+    delete:
+      summary: Delete comment
+      operationId: delete-v1-comments-id
+      responses:
+        '204':
+          description: No Content
+          schema:
+            type: object
+            properties: {}
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified comment is not found.
+  /v1/comments/likes:
+    get:
+      summary: Get comment like list
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommentLikeList'
+          examples:
+            example-1:
+              value:
+                commentLikes:
+                  - id: 1
+                    commentId: 1
+                    likedBy:
+                      id: 1
+                      lastName: Yamada
+                      firstName: Taro
+                    createdAt: '2019-08-24T14:15:22'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified commment is not found.
+      operationId: get-v1-comments-likes
+      parameters:
+        - type: string
+          in: query
+          name: commentId
+          description: Comment ID
+    post:
+      summary: Create comment like
+      operationId: post-v1-comments-likes
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/CommentLike'
+          examples:
+            example-1:
+              value:
+                id: 1
+                commentId: 1
+                likedBy:
+                  id: 1
+                  lastName: Yamada
+                  firstName: Taro
+                createdAt: '2019-08-24T14:15:22'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified user is not found.
+            example-2:
+              value:
+                code: string
+                message: string
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/CreateCommentLike'
+          x-examples:
+            example-1:
+              value:
+                commentId: 1
+                likedBy: 1
+                createdAt: '2019-08-24T14:15:22'
+  '/v1/comments/likes/{id}':
+    get:
+      summary: Get comment like
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommentLike'
+          examples:
+            example-1:
+              value:
+                id: 1
+                commentId: 1
+                likedBy:
+                  id: 1
+                  lastName: Yamada
+                  firstName: Taro
+                createdAt: '2019-08-24T14:15:22'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specifed comment like is not found.
+      operationId: get-v1-comments-like
+    parameters:
+      - type: integer
+        name: id
+        in: path
+        required: true
+        description: comment ID
+    delete:
+      summary: Delete comment like
+      operationId: delete-v1-comments-likes-id
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified commnent like is not found.
+  '/v1/statistics/posts/{id}':
+    get:
+      summary: Get post statistics
+      tags: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Statictics'
+          examples:
+            example-1:
+              value:
+                numberOfComments: 4
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            example-1:
+              value:
+                code: '0000'
+                message: Specified post is not found.
+      operationId: get-v1-statistics-posts
+    parameters:
+      - type: string
+        name: id
+        in: path
+        required: true
+        description: Post ID
+definitions:
+  Error:
+    title: Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    x-examples:
+      example-1:
+        code: '0000'
+        message: Unexpected error is occurred.
+  User:
+    title: User
+    type: object
+    properties:
+      id:
+        type: integer
+      lastName:
+        type: string
+      firstName:
+        type: string
+    x-examples:
+      example-1:
+        id: 1
+        lastName: Yamada
+        firstName: Taro
+  Comment:
+    title: Comment
+    type: object
+    x-examples:
+      example-1:
+        id: 1
+        postId: 1
+        text: これはコメントです
+        commentedBy:
+          id: 1
+          lastName: Yamada
+          firstName: Taro
+        isSpam: false
+        createdAt: '2021-10-24T14:15:22'
+        updatedAt: '2021-10-24T14:15:22'
+    properties:
+      id:
+        type: integer
+      postId:
+        type: integer
+      text:
+        type: string
+      commentedBy:
+        $ref: '#/definitions/User'
+      isSpam:
+        type: boolean
+      createdAt:
+        type: string
+        format: date-time
+        pattern: 'yyyy-MM-dd''T''HH:mm:ss'
+      updatedAt:
+        type: string
+        format: date-time
+        pattern: 'yyyy-MM-dd''T''HH:mm:ss'
+    required:
+      - id
+      - postId
+      - text
+      - commentedBy
+      - isSpam
+      - createdAt
+      - updatedAt
+  CreateComment:
+    title: CreateComment
+    type: object
+    properties:
+      postId:
+        type: integer
+      text:
+        type: string
+      commentedBy:
+        type: integer
+    x-examples:
+      example-1:
+        postId: 1
+        text: これはコメントです。
+        commentedBy: 1
+  UpdateComment:
+    title: UpdateComment
+    type: object
+    properties:
+      userId:
+        type: integer
+      text:
+        type: string
+      isSpam:
+        type: boolean
+    x-examples:
+      example-1:
+        userId: 0
+        text: これは更新コメントです。
+  Statictics:
+    title: Statictics
+    type: object
+    properties:
+      numberOfComments:
+        type: integer
+    x-examples:
+      example-1:
+        numberOfComments: 4
+  CommentList:
+    title: CommentList
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          $ref: '#/definitions/Comment'
+    x-examples:
+      example-1:
+        comments:
+          - id: 1
+            postId: 1
+            text: これはコメントです
+            commentedBy:
+              id: 1
+              lastName: Yamada
+              firstName: Taro
+            isSpam: false
+            createdAt: '2021-10-24T14:15:22'
+            updatedAt: '2021-10-24T14:15:22'
+  CommentLike:
+    title: CommentLike
+    type: object
+    properties:
+      id:
+        type: integer
+      commentId:
+        type: integer
+      likedBy:
+        $ref: '#/definitions/User'
+      createdAt:
+        type: string
+    x-examples:
+      example-1:
+        id: 1
+        commentId: 1
+        likedBy:
+          id: 1
+          lastName: Yamada
+          firstName: Taro
+        createdAt: '2019-08-24T14:15:22'
+  CreateCommentLike:
+    title: CreateCommentLike
+    type: object
+    properties:
+      commentId:
+        type: integer
+      likedBy:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+        pattern: 'yyyy-MM-dd''T''HH:mm:ss'
+    required:
+      - commentId
+      - likedBy
+      - createdAt
+    x-examples:
+      example-1:
+        commentId: 1
+        likedBy: 1
+        createdAt: '2019-08-24T14:15:22'
+  CommentLikeList:
+    title: CommentLikeList
+    type: object
+    properties:
+      commentLikes:
+        type: array
+        items:
+          $ref: '#/definitions/CommentLike'
+    x-examples:
+      example-1:
+        commentLikes:
+          - id: 1
+            commentId: 1
+            likedBy:
+              id: 1
+              lastName: Yamada
+              firstName: Taro
+            createdAt: '2019-08-24T14:15:22'
